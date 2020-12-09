@@ -6,7 +6,9 @@ class RepoApi extends BaseApi {
   }
 
   getRepoInfo(userName: string, repoName: string) {
-    return this.getAxiosInstance().get(`/${this.model}/${userName}/${repoName}`);
+    return this.get({
+      subsequentUrl: `/${userName}/${repoName}`
+    });
   }
 }
 

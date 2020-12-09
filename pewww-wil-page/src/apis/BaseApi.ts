@@ -21,6 +21,10 @@ class BaseApi {
     this.axiosInstance = createAxiosInstance();
   }
 
+  protected getAxiosInstance() {
+    return this.axiosInstance;
+  }
+
   protected get({
     subsequentUrl = '',
     config = {}
