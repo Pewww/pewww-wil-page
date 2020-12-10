@@ -5,15 +5,27 @@ class RepoApi extends BaseApi {
     super('repos');
   }
 
-  getRepoInfo(userName: string, repoName: string) {
+  public getRepoInfo(userName: string, repoName: string) {
     return this.get({
       subsequentUrl: `/${userName}/${repoName}`
     });
   }
 
-  getContents(userName: string, repoName: string) {
+  public getContents(userName: string, repoName: string) {
     return this.get({
       subsequentUrl: `/${userName}/${repoName}/contents`
+    });
+  }
+
+  public getFilesInFolder(userName: string, repoName: string, shaKey: string) {
+    return this.get({
+      subsequentUrl: `/${userName}/${repoName}/git/trees/${shaKey}`
+    });
+  }
+
+  public getReadmeFile(userName: string, repoName: string, shaKey: string) {
+    return this.get({
+      subsequentUrl: `/${userName}/${repoName}/git/blobs/${shaKey}`
     });
   }
 }

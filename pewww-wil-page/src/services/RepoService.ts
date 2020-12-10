@@ -26,6 +26,26 @@ class RepoService {
       return null;
     }
   }
+
+  public async getFilesInFolder(userName: string, repoName: string, shaKey: string) {
+    try {
+      const res = await this.repoApi.getFilesInFolder(userName, repoName, shaKey);
+
+      return res;
+    } catch(e) {
+      return null;
+    }
+  }
+
+  public async getReadmeFile(userName: string, repoName: string, shaKey: string) {
+    try {
+      const res = await this.repoApi.getReadmeFile(userName, repoName, shaKey);
+
+      return res;
+    } catch(e) {
+      return null;
+    }
+  }
 }
 
 export default RepoService;
