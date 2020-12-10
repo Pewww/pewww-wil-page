@@ -13,8 +13,17 @@ class RepoService {
 
       return res;
     } catch(e) {
-      console.error(e);
-      return {};
+      return null;
+    }
+  }
+
+  public async getContents(userName: string, repoName: string) {
+    try {
+      const res = await this.repoApi.getContents(userName, repoName);
+
+      return res;
+    } catch(e) {
+      return null;
     }
   }
 }
