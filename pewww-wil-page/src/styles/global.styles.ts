@@ -3,6 +3,7 @@ import {createGlobalStyle} from 'styled-components';
 const gothamBoldOtf = require('../assets/fonts/Gotham-Bold.otf');
 const gothamMediumOtf = require('../assets/fonts/Gotham-Medium.otf');
 const gothamLightOtf = require('../assets/fonts/Gotham-Light.otf');
+const sfMonoRegularOtf = require('../assets/fonts/SFMono-Regular.otf');
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -21,6 +22,12 @@ const GlobalStyle = createGlobalStyle`
     font-family: "Gotham Light";
     src: url("${gothamLightOtf}") format('opentype');
     font-weight: 300;
+  }
+
+  @font-face {
+    font-family: "SFMono Regular";
+    src: url("${sfMonoRegularOtf}") format('opentype');
+    font-weight: 400;
   }
 
   html, body {
