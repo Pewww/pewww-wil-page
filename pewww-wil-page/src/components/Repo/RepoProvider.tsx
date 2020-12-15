@@ -1,6 +1,7 @@
 import React from 'react';
-import RepoStore from '../../models/RepoStore';
 import { Provider } from 'mobx-react';
+
+import RepoStore from '../../models/RepoStore';
 import Repo from './Repo';
 
 const repoStore = new RepoStore();

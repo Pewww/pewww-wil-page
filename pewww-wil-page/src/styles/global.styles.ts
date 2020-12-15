@@ -7,26 +7,26 @@ const sfMonoRegularOtf = require('../assets/fonts/SFMono-Regular.otf');
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
-    font-family: "Gotham Bold";
-    src: url("${gothamBoldOtf}") format('opentype');
+    font-family: 'Gotham Bold';
+    src: url('${gothamBoldOtf}') format('opentype');
     font-weight: 600;
   }
 
   @font-face {
-    font-family: "Gotham Medium";
-    src: url("${gothamMediumOtf}") format('opentype');
+    font-family: 'Gotham Medium';
+    src: url('${gothamMediumOtf}') format('opentype');
     font-weight: 400;
   }
 
   @font-face {
-    font-family: "Gotham Light";
-    src: url("${gothamLightOtf}") format('opentype');
+    font-family: 'Gotham Light';
+    src: url('${gothamLightOtf}') format('opentype');
     font-weight: 300;
   }
 
   @font-face {
-    font-family: "SFMono Regular";
-    src: url("${sfMonoRegularOtf}") format('opentype');
+    font-family: 'SFMono Regular';
+    src: url('${sfMonoRegularOtf}') format('opentype');
     font-weight: 400;
   }
 

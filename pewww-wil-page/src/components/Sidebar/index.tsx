@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo } from 'react';
 import styled from 'styled-components';
-import { $DARK, $WHITE, $SIDEBAR_WIDTH } from '../../styles/variables.styles';
 import { observer } from 'mobx-react';
+
+import { $DARK, $WHITE, $SIDEBAR_WIDTH } from '../../styles/variables.styles';
 import useMobxStore from '../../hooks/useMobxStore';
 import SidebarList from './List';
 

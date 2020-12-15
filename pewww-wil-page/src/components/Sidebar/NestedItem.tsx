@@ -1,9 +1,10 @@
 import React, { useCallback, memo } from 'react';
 import styled from 'styled-components';
-import { ContentFile } from '../../@types/repo';
-import { $FONT, $DARK } from '../../styles/variables.styles';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import queryString from 'query-string';
+
+import { ContentFile } from '../../@types/repo';
+import { $FONT, $DARK } from '../../styles/variables.styles';
 
 const NestedItem = styled.li`
   list-style: none;

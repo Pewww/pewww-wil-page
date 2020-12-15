@@ -1,8 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import styled from 'styled-components';
-import { $SIDEBAR_WIDTH, $LINK, $LINK_BACKGROUND, $WHITE } from '../../styles/variables.styles';
 import { observer } from 'mobx-react';
-import useMobxStore from '../../hooks/useMobxStore';
 import { decode } from 'js-base64';
 import { Converter } from 'showdown';
 import parse from 'html-react-parser';
@@ -10,6 +8,9 @@ import SyntaxHighlighter from 'react-syntax-highlighter';
 import { atomOneDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import queryString from 'query-string';
+
+import { $SIDEBAR_WIDTH, $LINK, $LINK_BACKGROUND, $WHITE } from '../../styles/variables.styles';
+import useMobxStore from '../../hooks/useMobxStore';
 import { getRandomId } from '../../libs/random';
 
 const ContentWrapper = styled.main`

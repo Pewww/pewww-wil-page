@@ -1,5 +1,6 @@
 import React, { memo } from 'react';
 import styled from 'styled-components';
+
 import { ContentFile } from '../../@types/repo';
 import SidebarNestedItem from './NestedItem';
 

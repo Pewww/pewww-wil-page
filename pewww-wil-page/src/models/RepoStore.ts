@@ -1,5 +1,6 @@
-import RepoService from '../services/RepoService';
 import { observable, action, runInAction } from 'mobx';
+
+import RepoService from '../services/RepoService';
 import { Content, ContentFile, ReadmeFile } from '../@types/repo';
 
 class RepoStore {
