@@ -1,4 +1,4 @@
-import React, { useState, useCallback, memo } from 'react';
+import React, { useState, useEffect, useCallback, memo } from 'react';
 import styled from 'styled-components';
 import { Content } from '../../@types/repo';
 import { formatDate } from '../../libs/date';
@@ -6,6 +6,9 @@ import { $FONT } from '../../styles/variables.styles';
 import arrowIcon from '../../assets/icons/right-arrow.png';
 import useMobxStore from '../../hooks/useMobxStore';
 import SidebarNestedList from './NestedList';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
+import queryString from 'query-string';
+import isEmpty from 'lodash.isempty';
 
 const Item = styled.li`
   position: relative;
@@ -38,12 +41,20 @@ const Item = styled.li`
   }
 `;
 
-interface SidebarItemProps extends Content {}
+interface SidebarItemProps extends Content, RouteComponentProps {}
 
 const SidebarItem: React.FC<SidebarItemProps> = ({
   name,
-  sha
+  sha,
+  location: {
+    search
+  }
 }) => {
+  const {
+    folderName,
+    folderShaKey
+  } = queryString.parse(search);
+
   const {
     repoStore: {
       getFilesInFolder,
@@ -53,12 +64,33 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
 
   const [isOpened, setIsOpened] = useState(false);
 
+  const fetchFilesInFolder = useCallback(
+    async(shaKey: string, callback: () => void) => {
+      await getFilesInFolder('Pewww', 'WIL', shaKey);
+      callback();
+    }, [getFilesInFolder]
+  );
+
+  useEffect(() => {
+    const isFolderOpened = name === folderName;
+
+    if (isFolderOpened) {
+      fetchFilesInFolder(folderShaKey! as string, () => {
+        setIsOpened(true);
+      });
+    }
+  }, [
+    name,
+    folderName,
+    folderShaKey,
+    fetchFilesInFolder
+  ]);
+
   const clickItem = useCallback(() => {
-    (async() => {
-      await getFilesInFolder('Pewww', 'WIL', sha);
+    fetchFilesInFolder(sha, () => {
       setIsOpened(curr => !curr);
-    })();
-  }, [getFilesInFolder, sha]);
+    });
+  }, [fetchFilesInFolder, sha]);
 
   const arrowIconAlt = isOpened
     ? '닫기'
@@ -68,15 +100,17 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
     ? 'opened'
     : '';
 
+  const formattedDate = formatDate(name, 'YYYY/MM/DD');
+
   return (
     <Item onClick={clickItem}>
-      <span>{formatDate(name, 'YYYY/MM/DD')}</span>
+      <span>{formattedDate}</span>
       <img
         src={arrowIcon}
         alt={arrowIconAlt}
         className={arrowIconClassName}
       />
-      {isOpened && (
+      {(isOpened && !isEmpty(filesInFolder[sha])) && (
         <SidebarNestedList
           folderName={name}
           folderShaKey={sha}
@@ -87,4 +121,6 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
   );
 };
 
-export default memo(SidebarItem);
+export default memo(
+  withRouter(SidebarItem)
+);

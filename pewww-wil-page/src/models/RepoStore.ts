@@ -22,9 +22,8 @@ class RepoStore {
     [shaKey: string]: ReadmeFile[];
   } = {};
 
-  // 임시
   @observable
-  public content: string = '';
+  public readme: string = '';
 
   private repoService: RepoService;
 
@@ -114,7 +113,7 @@ class RepoStore {
           ...this.readmeFiles,
           [sha]: content
         };
-        this.content = content;
+        this.readme = content;
       });
     }
   }

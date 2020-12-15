@@ -15,14 +15,14 @@ const StyledSidebar = styled.aside`
   h1 {
     margin: 0;
     background-color: ${$DARK};
-    text-align: center;
-    line-height: 5;
+    padding-left: 20px;
+    line-height: 4.75;
 
     a {
       text-decoration: none;
       color: ${$WHITE};
       font-family: 'Gotham Light';
-      font-size: 20px;
+      font-size: 24px;
       text-transform: uppercase;
       letter-spacing: 2px;
     }
@@ -46,7 +46,7 @@ const Sidebar: React.FC = observer(() => {
   useEffect(() => {
     getRepoInfo('Pewww', 'WIL');
     getContents('Pewww', 'WIL');
-  }, []);
+  }, [getRepoInfo, getContents]);
 
   return (
     <StyledSidebar>

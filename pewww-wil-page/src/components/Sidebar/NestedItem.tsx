@@ -1,8 +1,9 @@
 import React, { useCallback, memo } from 'react';
 import styled from 'styled-components';
 import { ContentFile } from '../../@types/repo';
-import useMobxStore from '../../hooks/useMobxStore';
-import { $FONT } from '../../styles/variables.styles';
+import { $FONT, $DARK } from '../../styles/variables.styles';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
+import queryString from 'query-string';
 
 const NestedItem = styled.li`
   list-style: none;
@@ -10,9 +11,23 @@ const NestedItem = styled.li`
   font-family: 'Gotham Light';
   font-size: 14px;
   line-height: 2;
+
+  span {
+    position: relative;
+
+    &.underline:after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 1px;
+      background-color: ${$DARK};
+      top: 120%;
+      left: 0;
+    }
+  }
 `;
 
-interface SidebarNestedItemProps extends ContentFile {
+interface SidebarNestedItemProps extends ContentFile, RouteComponentProps {
   folderName: string;
   folderShaKey: string;
 }
@@ -21,26 +36,46 @@ const SidebarNestedItem: React.FC<SidebarNestedItemProps> = ({
   path,
   sha,
   folderName,
-  folderShaKey
+  folderShaKey,
+  history,
+  location: {
+    search
+  }
 }) => {
-  const {
-    repoStore: {
-      getReadmeFile
-    }
-  } = useMobxStore();
+  const { readmeTitle } = queryString.parse(search);
 
   const [pathWithoutExtension] = path.split('.');
 
   const clickNestedItem = useCallback((e: React.MouseEvent<HTMLLIElement>) => {
     e.stopPropagation();
-    // getReadmeFile('Pewww', 'WIL', sha);
-  }, [getReadmeFile, sha]);
+    history.replace(`/?${queryString.stringify({
+      folderName,
+      folderShaKey,
+      readmeShaKey: sha,
+      readmeTitle: pathWithoutExtension,
+    })}`);
+  }, [
+    history,
+    folderName,
+    folderShaKey,
+    pathWithoutExtension,
+    sha
+  ]);
+
+  const pathSpanClassName = pathWithoutExtension === readmeTitle
+    ? 'underline'
+    : '';
 
   return (
     <NestedItem onClick={clickNestedItem}>
-      - {pathWithoutExtension}
+      -&nbsp;
+      <span className={pathSpanClassName}>
+        {pathWithoutExtension}
+      </span>
     </NestedItem>
   );
 };
 
-export default memo(SidebarNestedItem);
+export default memo(
+  withRouter(SidebarNestedItem)
+);

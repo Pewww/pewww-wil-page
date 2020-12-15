@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import { $SIDEBAR_WIDTH, $LINK, $LINK_BACKGROUND, $WHITE } from '../../styles/variables.styles';
 import { observer } from 'mobx-react';
@@ -8,6 +8,9 @@ import { Converter } from 'showdown';
 import parse from 'html-react-parser';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { atomOneDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
+import queryString from 'query-string';
+import { getRandomId } from '../../libs/random';
 
 const ContentWrapper = styled.main`
   float: right;
@@ -43,26 +46,40 @@ const ContentWrapper = styled.main`
   }
 `;
 
-const Content: React.FC = observer(() => {
+const Content: React.FC<RouteComponentProps> = observer(router => {
+  const {
+    location: {
+      search
+    }
+  } = router;
+
   const {
     repoStore: {
-      content
+      getReadmeFile,
+      readme
     }
   } = useMobxStore();
 
+  const { readmeShaKey } = queryString.parse(search);
+
+  useEffect(() => {
+    if (readmeShaKey) {
+      getReadmeFile('Pewww', 'WIL', readmeShaKey);
+    }
+  }, [readmeShaKey, getReadmeFile]);
+
   const parsedContent = useMemo(() => {
     const converter = new Converter();
-    const decodedContent = decode(content);
+    const decodedContent = decode(readme);
     const markdownToHtml = converter.makeHtml(decodedContent);
     const htmlContent = parse(markdownToHtml) as JSX.Element[];
-
-    console.log(htmlContent);
 
     // For code highlighting
     const reParsedHtmlContent = htmlContent.map(c =>
       c.type === 'pre'
         ? (
           <SyntaxHighlighter
+            key={c?.key ?? getRandomId()}
             language="typescript"
             style={atomOneDark}
           >
@@ -73,7 +90,7 @@ const Content: React.FC = observer(() => {
       );
 
     return reParsedHtmlContent;
-  }, [content]);
+  }, [readme]);
 
   return (
     <ContentWrapper>
@@ -82,4 +99,4 @@ const Content: React.FC = observer(() => {
   );
 });
 
-export default Content;
+export default withRouter(Content);
