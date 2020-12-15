@@ -36,6 +36,7 @@ const Sidebar: React.FC = observer(() => {
       getRepoInfo,
       getContents,
       repoName,
+      repoUrl,
       contents: repoContents
     }
   } = useMobxStore();
@@ -53,7 +54,7 @@ const Sidebar: React.FC = observer(() => {
     <StyledSidebar>
       <h1>
         <a
-          href="https://github.com/Pewww/WIL"
+          href={repoUrl}
           target="_blank"
           rel="noopener noreferrer"
         >
